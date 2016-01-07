@@ -15,3 +15,4 @@ install:
 
 script:
     - luarocks make rockspecs/cparser-scm-1.rockspec
+    - lua test_cparser.lua

@@ -24,7 +24,7 @@ function CharStream:peek()
 end
 
 --- Advance one character forward in the stream.
--- @return the character we just advanced over, or nil if we're at eof
+-- @return the character we just advanced over, or nil if we're at eof.
 function CharStream:advance()
   if self:eof() then return end
 

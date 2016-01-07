@@ -1,0 +1,17 @@
+language: python
+sudo: false
+
+env:
+    - LUA="--lua 5.1"
+    - LUA="--lua 5.2"
+    - LUA="--lua 5.3"
+    - LUA="--luajit 2.0"
+    - LUA="--luajit 2.1"
+
+install:
+    - pip install hererocks
+    - hererocks lua_install --luarocks ^ $LUA
+    - export PATH=$PATH:$PWD/lua_install/bin
+
+script:
+    - luarocks make rockspecs/cparser-scm-1.rockspec

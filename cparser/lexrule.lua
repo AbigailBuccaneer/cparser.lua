@@ -27,9 +27,9 @@ end)
 --- Returns a LexRule that accepts any of the given characters.
 -- Character ranges can be specified with eg. "A-Z".
 function LexRule.class(...)
-  local ranges = table.pack(...)
   local lookup = {}
-  for _, range in ipairs(ranges) do
+  for i = 1, select('#', ...) do
+    local range = select(i, ...)
     if type(range) == "table" then
       assert(range.__class, "non-class table as element of class")
       for k, v in pairs(range.__class) do

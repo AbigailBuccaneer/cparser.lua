@@ -13,6 +13,7 @@ dependencies = {
 build = {
   type = "builtin",
   modules = {
-    ["cparser.charstream"] = "cparser/charstream.lua"
+    ["cparser.charstream"] = "cparser/charstream.lua",
+    ["cparser.lexrule"] = "cparser/lexrule.lua",
   }
 }

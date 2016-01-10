@@ -117,3 +117,20 @@ function test_lexrule_optional()
   L.assertTrue(LexRule.optional(LexRule"abc")(stream))
   L.assertEquals(stream:peek(), 'd')
 end
+
+function test_lexrule_repetition()
+  local stream = CharStream.new("aaaaaaaa!")
+  L.assertTrue((LexRule'a' ^ 3)(stream))
+  L.assertEquals(stream.Offset, 4)
+
+  L.assertTrue((LexRule'a' ^ { 0, 1})(stream))
+  L.assertEquals(stream.Offset, 5)
+
+  L.assertTrue((LexRule'a' ^ { 1, 5 })(stream))
+  L.assertEquals(stream.Offset, 9)
+
+  L.assertFalse((LexRule'a' ^ 2)(stream))
+
+  L.assertError(LexRule'a', { 3, 2 })
+  L.assertError(LexRule'a', -1)
+end

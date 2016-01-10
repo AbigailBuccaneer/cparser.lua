@@ -133,4 +133,36 @@ function LexRule.optional(rule)
   end)
 end
 
+function LexRule.metatable:__pow(bounds)
+  local lower, upper
+  if type(bounds) == "number" then
+    lower, upper = bounds, bounds
+  else
+    assert(type(bounds) == "table")
+    if #bounds == 1 then
+      lower = assert(bounds[1], "missing bound for LexRule repetition")
+      upper = lower
+    elseif #bounds == 2 then
+      lower = assert(bounds[1], "missing lower bound for LexRule repetition")
+      upper = assert(bounds[2], "missing upper bound for LexRule repetition")
+    else
+      error("expected { number } or { number, number } for LexRule repetition")
+    end
+  end
+
+  assert(lower >= 0, "negative number passed for LexRule repetition lower bound")
+  assert(upper >= lower, "upper bound must be no less than lower bound for LexRule repetition")
+
+  return LexRule.new(function(stream)
+    local pos = stream:pos()
+    for i = 1, lower do
+      if not self(stream) then stream:backtrack(pos) return false end
+    end
+    for i = lower + 1, upper do
+      if not self(stream) then break end
+    end
+    return true
+  end)
+end
+
 return LexRule

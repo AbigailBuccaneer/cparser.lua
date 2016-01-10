@@ -32,7 +32,7 @@ function LexRule.class(...)
   for _, range in ipairs(ranges) do
     if type(range) == "table" then
       assert(range.__class, "non-class table as element of class")
-      for k, v in pairs(range) do
+      for k, v in pairs(range.__class) do
         if type(k) == "string" and type(v) == "boolean" then lookup[k] = v end
       end
     else

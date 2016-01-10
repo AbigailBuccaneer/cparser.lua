@@ -42,6 +42,10 @@ function test_lexrule_class()
   L.assertTrue(abcd(stream))
   L.assertEquals(stream:peek(), 'e')
 
+  local ef = LexRule.class('f', LexRule.class('e'))
+  L.assertTrue(ef(stream))
+  L.assertEquals(stream:peek(), 'f')
+
   L.assertError(LexRule.class, "ab")
   L.assertError(LexRule.class, {})
 end

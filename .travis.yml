@@ -1,6 +1,12 @@
 language: python
 sudo: false
 
+cache:
+    pip: true
+    directories:
+        - $HOME/.cache/pip
+        - $HOME/lua
+
 env:
     - LUA="--lua 5.1"
     - LUA="--lua 5.2"
@@ -10,8 +16,8 @@ env:
 
 install:
     - pip install hererocks
-    - hererocks lua_install --luarocks ^ $LUA
-    - export PATH=$PATH:$PWD/lua_install/bin
+    - hererocks $HOME/lua --luarocks ^ $LUA
+    - export PATH=$PATH:$HOME/lua/bin
     - luarocks install luacov
     - luarocks install luacov-coveralls
 

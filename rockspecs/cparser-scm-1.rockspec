@@ -15,5 +15,6 @@ build = {
   modules = {
     ["cparser.charstream"] = "cparser/charstream.lua",
     ["cparser.lexrule"] = "cparser/lexrule.lua",
+    ["cparser.lexer"] = "cparser/lexer.lua",
   }
 }

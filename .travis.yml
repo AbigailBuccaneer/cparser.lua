@@ -26,4 +26,4 @@ script:
     - lua -lluacov test_cparser.lua
 
 after_success:
-    - luacov-coveralls
+    - luacov-coveralls -i '/cparser' -i '/cparser/*'

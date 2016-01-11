@@ -14,6 +14,9 @@ function test_lexrule_new()
       L.assertIsBoolean(rule(stream))
     end
   end
+
+  L.assertError(LexRule.new)
+  L.assertError(LexRule.new, {})
 end
 
 function test_lexrule_any()
@@ -63,6 +66,9 @@ function test_lexrule_string()
 
   L.assertFalse(LexRule.string("ed")(stream))
   L.assertEquals(stream:peek(), 'd')
+
+  L.assertError(LexRule.string)
+  L.assertError(LexRule.string, {})
 end
 
 function test_lexrule_negate()
@@ -131,6 +137,22 @@ function test_lexrule_repetition()
 
   L.assertFalse((LexRule'a' ^ 2)(stream))
 
-  L.assertError(LexRule'a', { 3, 2 })
-  L.assertError(LexRule'a', -1)
+  L.assertError(LexRule.metatable.__pow, LexRule'a', { 3, 2 })
+  L.assertError(LexRule.metatable.__pow, LexRule'a', -1)
+
+  L.assertError(LexRule.metatable.__pow, LexRule'a', { 1, 2, 3 })
+
+  local dodgyTable = setmetatable({}, { __len = function() return 1 end })
+  L.assertError(LexRule.metatable.__pow, LexRule'a', dodgyTable)
+end
+
+function test_lexrule_subtract()
+  local stream = CharStream.new("/* comment */!code;")
+  local blockComment = LexRule'/*' .. LexRule.many(LexRule.any - LexRule'*/') .. LexRule'*/'
+  L.assertTrue(blockComment(stream))
+  L.assertEquals(stream:peek(), '!')
+
+  local unterminated = LexRule.many(LexRule.any - LexRule'X')
+  L.assertTrue(unterminated(stream))
+  L.assertTrue(stream:eof())
 end

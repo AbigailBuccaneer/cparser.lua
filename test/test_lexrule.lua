@@ -126,7 +126,10 @@ end
 
 function test_lexrule_repetition()
   local stream = CharStream.new("aaaaaaaa!")
-  L.assertTrue((LexRule'a' ^ 3)(stream))
+  L.assertTrue((LexRule'a' ^ { 1 })(stream))
+  L.assertEquals(stream.Offset, 2)
+
+  L.assertTrue((LexRule'a' ^ 2)(stream))
   L.assertEquals(stream.Offset, 4)
 
   L.assertTrue((LexRule'a' ^ { 0, 1})(stream))

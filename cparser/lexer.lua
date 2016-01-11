@@ -68,8 +68,8 @@ Lexer.punctuator = R.new(function(stream)
   local pos = stream:pos()
   local valid = false
   while true do
-    if stream:eof() then break end
     if node.valid then pos = stream:pos() valid = true end
+    if stream:eof() then break end
     node = node[stream:peek()]
     if not node then break end
     stream:advance()

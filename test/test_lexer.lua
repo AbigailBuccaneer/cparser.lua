@@ -72,6 +72,8 @@ function test_lexer_punctuator()
   local lexer = Lexer.new(",,")
   L.assertTrue(lexer.punctuator(lexer.Stream))
   L.assertEquals(lexer.Stream.Offset, 2)
+  L.assertTrue(lexer.punctuator(lexer.Stream))
+  L.assertEquals(lexer.Stream.Offset, 3)
 end
 
 function test_lexer_program()

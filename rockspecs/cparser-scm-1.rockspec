@@ -16,5 +16,6 @@ build = {
     ["cparser.charstream"] = "cparser/charstream.lua",
     ["cparser.lexrule"] = "cparser/lexrule.lua",
     ["cparser.lexer"] = "cparser/lexer.lua",
+    ["cparser.retokenizer"] = "cparser/retokenizer.lua",
   }
 }

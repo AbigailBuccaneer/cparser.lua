@@ -82,6 +82,9 @@ function Retokenizer:nextToken()
       assert(number:eof(), "invalid integer " .. token.Text)
       token.ExpressionType = "int"
     else
+      -- This should never happen - anything lexed as a pp-number starts with
+      -- either 'digit' or '.digit' so either floatingConstant or integerConstant
+      -- would match a prefix (and then give the error, invalid float/int above)
       error("invalid numeric constant " .. token.Text)
     end
     token.Type = "number"

@@ -118,3 +118,12 @@ int main(int argc, char **argv) {
   end
 
 end
+
+function test_lexer_other()
+  local lexer = Lexer.new("$£é@")
+  for i = 1, 4 do
+    local token = lexer:nextToken()
+    L.assertNotNil(token)
+    L.assertEquals(token.Type, "other")
+  end
+end

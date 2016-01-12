@@ -41,17 +41,20 @@ end
 function test_retokenizer_number()
   local source = "0xFFF 0377 678.475 .3e10"
   local split = { "0xFFF", "0377", "678.475", ".3e10" }
-  local stream = Retokenizer.new(Lexer.new(source))
+  local stream1 = Retokenizer.new(Lexer.new(source))
   for _, expectedText in ipairs(split) do
-    local token = stream:nextToken()
+    local token = stream1:nextToken()
     L.assertEquals(token.Type, "number")
     L.assertEquals(token.Text, expectedText)
     L.assertNotNil(token.ExpressionType)
   end
 
   local source = "0379 0.a 1.2.3 0xGG"
-  local stream = Retokenizer.new(Lexer.new(source))
+  local stream2 = Retokenizer.new(Lexer.new(source))
   for _, expectedText in ipairs(split) do
-    L.assertError(stream.nextToken, stream)
+    L.assertError(stream2.nextToken, stream)
   end
+
+  local stream3 = Retokenizer.new(stream(number("this isn't a number, how'd this get lexed as a number")))
+  L.assertError(stream3.nextToken, stream)
 end

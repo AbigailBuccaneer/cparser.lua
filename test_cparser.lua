@@ -1,3 +1,4 @@
+require "test.test_backtrackingstream"
 require "test.test_charstream"
 require "test.test_declarations"
 require "test.test_lexrule"

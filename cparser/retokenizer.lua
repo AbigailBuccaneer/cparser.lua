@@ -5,6 +5,15 @@
 -- a number in order to make token pasting more flexible.
 -- This is where we turn those preprocessing tokens into C tokens, and parse
 -- contents of token text (eg. deduce the value and type of numbers).
+--
+-- The possible resultant output types are:
+-- * identifier
+-- * keyword (with the field .Keyword containing the name of the keyword)
+-- * punctuator (with the field .Punctuation containing the represented punctuation)
+-- * integer-constant
+-- * floating-constant
+-- * character-constant
+-- * string-literal
 
 local R = require "cparser.lexrule"
 local CharStream = require "cparser.charstream"
@@ -77,17 +86,16 @@ function Retokenizer:nextToken()
     local number = CharStream.new(token.Text)
     if floatingConstant(number) then
       assert(number:eof(), "invalid floating point number " .. token.Text)
-      token.ExpressionType = "float"
+      token.Type = "floating-constant"
     elseif integerConstant(number) then
       assert(number:eof(), "invalid integer " .. token.Text)
-      token.ExpressionType = "int"
+      token.Type = "integer-constant"
     else
       -- This should never happen - anything lexed as a pp-number starts with
       -- either 'digit' or '.digit' so either floatingConstant or integerConstant
       -- would match a prefix (and then give the error, invalid float/int above)
       error("invalid numeric constant " .. token.Text)
     end
-    token.Type = "number"
   end
   return token
 end

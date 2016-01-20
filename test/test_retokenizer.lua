@@ -41,12 +41,12 @@ end
 function test_retokenizer_number()
   local source = "0xFFF 0377 678.475 .3e10"
   local split = { "0xFFF", "0377", "678.475", ".3e10" }
+  local types = { "integer-constant", "integer-constant", "floating-constant", "floating-constant" }
   local stream1 = Retokenizer.new(Lexer.new(source))
-  for _, expectedText in ipairs(split) do
+  for i, expectedText in ipairs(split) do
     local token = stream1:nextToken()
-    L.assertEquals(token.Type, "number")
+    L.assertEquals(token.Type, types[i])
     L.assertEquals(token.Text, expectedText)
-    L.assertNotNil(token.ExpressionType)
   end
 
   local source = "0379 0.a 1.2.3 0xGG"

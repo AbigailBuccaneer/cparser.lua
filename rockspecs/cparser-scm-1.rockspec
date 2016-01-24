@@ -13,9 +13,11 @@ dependencies = {
 build = {
   type = "builtin",
   modules = {
+    ["cparser.backtrackingstream"] = "cparser/backtrackingstream.lua",
     ["cparser.charstream"] = "cparser/charstream.lua",
-    ["cparser.lexrule"] = "cparser/lexrule.lua",
+    ["cparser.declarations"] = "cparser/declarations.lua",
     ["cparser.lexer"] = "cparser/lexer.lua",
+    ["cparser.lexrule"] = "cparser/lexrule.lua",
     ["cparser.retokenizer"] = "cparser/retokenizer.lua",
   }
 }
